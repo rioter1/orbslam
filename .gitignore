@@ -1,6 +1,5 @@
 # Ignore virtual environment directories
-venv/
-.env/
+slam/
 
 # Ignore build directories created by CMake
 build/
