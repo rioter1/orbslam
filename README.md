@@ -17,7 +17,7 @@ cd Pangolin
 ./scripts/install_prerequisites.sh --dry-run recommended
 ```
 
-While executing above command i error 
+While executing above command i encountered an error 
 E: Unable to locate package catch2
 
 I resolved it by building catch2 from git 
