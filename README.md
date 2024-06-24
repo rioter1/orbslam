@@ -11,7 +11,7 @@ GCC 4.8 and above support C++11, so any recent version, such as the one mentione
 # Install Pangolin
 Download pangolin  
 https://github.com/stevenlovegrove/Pangolin  
-# Clone Pangolin along with it's submodules
+
 ```
 git clone --recursive https://github.com/stevenlovegrove/Pangolin.git
 cd Pangolin
