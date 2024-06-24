@@ -28,3 +28,9 @@ cmake -B build -S . -DBUILD_TESTING=OFF
 sudo cmake --build build/ --target install
 ```
 After Catch2 installation i removed all mentions of catch2 from install_prereqisites.sh and ran the install_prerequisites.sh again
+
+Install opencv (code tested with version 4.4.0)
+```
+pip install opencv-python==4.4.0.46
+```
+4.4.0.40 caused failure while building wheel
