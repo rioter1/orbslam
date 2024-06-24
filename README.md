@@ -8,6 +8,7 @@ g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
 ```
 GCC 4.8 and above support C++11, so any recent version, such as the one mentioned above, will work.  
 
+# Install Pangolin
 Download pangolin  
 https://github.com/stevenlovegrove/Pangolin  
 # Clone Pangolin along with it's submodules
@@ -15,7 +16,12 @@ https://github.com/stevenlovegrove/Pangolin
 git clone --recursive https://github.com/stevenlovegrove/Pangolin.git
 cd Pangolin
 ./scripts/install_prerequisites.sh --dry-run recommended
+cmake -B build
+cmake --build build
+cmake --build build -t pypangolin_pip_install
 ```
+Successfully installed numpy-2.0.0 pillow-10.3.0 pybind11-2.12.0 pyopengl-3.1.7 pyopengl-accelerate-3.1.7 pypangolin-0.9.1
+
 
 While executing above command i encountered an error 
 E: Unable to locate package catch2
@@ -39,6 +45,7 @@ pip install opencv-python==4.4.0.46
 Download eigen zip file https://eigen.tuxfamily.org/index.php?title=Main_Page and extract
 ```
 cd eigen
+mkdir build_dir
 cd build_dir
 cmake ../
 make install
