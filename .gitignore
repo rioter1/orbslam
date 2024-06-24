@@ -1,0 +1,9 @@
+# Ignore virtual environment directories
+venv/
+.env/
+
+# Ignore build directories created by CMake
+build/
+cmake-build-*/
+
+Pangolin/
