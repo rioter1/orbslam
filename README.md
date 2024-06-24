@@ -29,8 +29,17 @@ sudo cmake --build build/ --target install
 ```
 After Catch2 installation i removed all mentions of catch2 from install_prereqisites.sh and ran the install_prerequisites.sh again
 
-Install opencv (code tested with version 4.4.0)
+# Install opencv (code tested with version 4.4.0)
 ```
 pip install opencv-python==4.4.0.46
 ```
 4.4.0.40 caused failure while building wheel
+
+# Install Eigen
+Download eigen zip file https://eigen.tuxfamily.org/index.php?title=Main_Page and extract
+```
+cd eigen
+cd build_dir
+cmake ../
+make install
+```
