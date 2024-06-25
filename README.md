@@ -79,3 +79,19 @@ Check if the header files are installed
 ```
 ls /usr/local/include/DBoW2/
 ```
+
+# Install g2o
+Install dependencies
+```
+sudo apt install libeigen3-dev libspdlog-dev libsuitesparse-dev qtdeclarative5-dev qt5-qmake libqglviewer-dev-qt5
+```
+
+Install g2o
+```
+git clone https://github.com/RainerKuemmerle/g2o.git
+cd g2o
+mkdir build
+cd build
+cmake ../
+make
+```
