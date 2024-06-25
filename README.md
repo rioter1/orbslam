@@ -37,11 +37,13 @@ After Catch2 installation i removed all mentions of catch2 from install_prereqis
 
 # Install opencv (code tested with version 4.4.0)
 ```
+pip install numpy==1.19.5
 pip install opencv-python==4.4.0.46
 ```
-4.4.0.40 caused failure while building wheel
+4.4.0.40 caused failure while building wheel, numpy 2.0.0 causing error while loading cv2
 
 # Install Eigen
+Eigen is required by g2o
 Download eigen zip file https://eigen.tuxfamily.org/index.php?title=Main_Page and extract
 ```
 cd eigen
@@ -49,4 +51,31 @@ mkdir build_dir
 cd build_dir
 cmake ../
 make install
+```
+
+# Install DBoW2
+
+```
+sudo apt-get install libopencv-dev
+
+git clone https://github.com/dorian3d/DBoW2.git
+cd DBoW2
+
+mkdir build
+cd build
+
+cmake ..
+
+make
+
+sudo make install
+```
+
+Check if the library files are installed
+```
+ls /usr/local/lib/libDBoW2.so
+```
+Check if the header files are installed
+```
+ls /usr/local/include/DBoW2/
 ```

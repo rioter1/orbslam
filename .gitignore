@@ -8,3 +8,5 @@ cmake-build-*/
 Pangolin/
 
 eigen/
+
+DBoW2/
