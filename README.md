@@ -37,8 +37,9 @@ After Catch2 installation i removed all mentions of catch2 from install_prereqis
 
 # Install opencv (code tested with version 4.4.0)
 ```
-pip install numpy==1.19.5
-pip install opencv-python==4.4.0.46
+
+sudo apt-get install -y  libjpeg-dev libpng-dev libtiff-dev libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libeigen3-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev sphinx-common libtbb-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libopenexr-dev libgstreamer-plugins-base1.0-dev libavutil-dev libavfilter-dev libavresample-dev
+6
 ```
 4.4.0.40 caused failure while building wheel, numpy 2.0.0 causing error while loading cv2
 
@@ -122,4 +123,12 @@ Initialize rosdep
 ```
 sudo rosdep init
 rosdep update
+```
+
+# Install intel realsesne camera setup
+
+```
+sudo apt-get install libssl-dev libusb-1.0-0-dev libudev-dev pkg-config libgtk-3-dev v4l-utils
+sudo apt-get install libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev at
+git clone https://github.com/IntelRealSense/librealsense.git
 ```

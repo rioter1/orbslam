@@ -12,3 +12,9 @@ eigen/
 DBoW2/
 
 g2o/
+
+opencv-4.4.0/
+
+librealsense/
+
+ORB_SLAM3/
