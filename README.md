@@ -36,12 +36,35 @@ sudo cmake --build build/ --target install
 After Catch2 installation i removed all mentions of catch2 from install_prereqisites.sh and ran the install_prerequisites.sh again
 
 # Install opencv (code tested with version 4.4.0)
+You cannot install opencv-python as the build process for ORB_SLAM3 will look for OpenCVModules.cmake & OpenCVConfig.cmake which will not be built if you do 
+a pip install. You have to build opencv
+
+Install dependecies
+```
+sudo apt-get install -y  libjpeg-dev libpng-dev libtiff-dev libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libeigen3-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev sphinx-common libtbb-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libopenexr-dev libgstreamer-plugins-base1.0-dev libavutil-dev libavfilter-dev libavresample-dev6
+
 ```
 
-sudo apt-get install -y  libjpeg-dev libpng-dev libtiff-dev libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libeigen3-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev sphinx-common libtbb-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libopenexr-dev libgstreamer-plugins-base1.0-dev libavutil-dev libavfilter-dev libavresample-dev
-6
+Download and unpack sources
 ```
-4.4.0.40 caused failure while building wheel, numpy 2.0.0 causing error while loading cv2
+wget -O opencv.zip https://github.com/opencv/opencv/archive/4.4.zip
+unzip opencv.zip
+cd opencv-4.4.0
+```
+If above link does not work try 4.4.0.zip
+
+```
+
+mkdir -p build && cd build
+
+cmake ../opencv-4.x
+ 
+cmake --build .
+
+sudo make install
+
+```
+
 
 # Install Eigen
 Eigen is required by g2o
@@ -54,6 +77,7 @@ cmake ../
 make install
 ```
 
+Note: YOU DO NOT NEED TO BUILD g20 and DBoW2 seperately. they come preinstalled in ORB_SLAM3 directory, but if you wish to, use below and change path in ./build.sh directory
 # Install DBoW2
 
 ```
@@ -131,4 +155,143 @@ rosdep update
 sudo apt-get install libssl-dev libusb-1.0-0-dev libudev-dev pkg-config libgtk-3-dev v4l-utils
 sudo apt-get install libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev at
 git clone https://github.com/IntelRealSense/librealsense.git
+
+./scripts/patch-realsense-ubuntu-lts-hwe.sh
+
+mkdir build && cd build
+cmake ../ -DBUILD_EXAMPLES=true
+
+sudo make uninstall && make clean && make && sudo make install
 ```
+
+# Install ORBSLAM3
+Try below, if it works, you are all set. 
+
+```
+git clone https://github.com/UZ-SLAMLab/ORB_SLAM3.git ORB_SLAM3
+cd ORB_SLAM3
+chmod +x build.sh
+./build.sh
+```
+BUT
+
+Make sure the your LD_LIBRARY_PATH contains /usr/lib (check echo $LD_LIBRARY_PATH especially if running a virtual environment)
+
+```
+export LD_LIBRARY_PATH=/usr/lib:/usr/local/lib
+source ~/.bashrc
+```
+
+
+I faced certain errors with respect to theopencv 
+
+for opencv, it was looking for path to files OpenCVModules.cmake & OpenCVConfig.cmake during build process, to solve it
+
+paste in ORB_SLAM3/CMakeLists.txt, just before find_package(OpenCV 4.4) (around line 33)
+```
+set(OpenCV_DIR "~/orbslam/opencv-4.4.0/build")
+```
+
+And i faced errors with and pthread header and functions having troubline linking with the pthread library
+```
+/usr/bin/ld: cannot find -lpthreads
+/usr/bin/ld: CMakeFiles/cmTC_880d9.dir/src.c.o: in function main':
+src.c:(.text.startup+0x29): undefined reference to pthread_create'
+/usr/bin/ld: src.c:(.text.startup+0x32): undefined reference to pthread_detach'
+/usr/bin/ld: src.c:(.text.startup+0x3d): undefined reference to pthread_join'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_880d9.dir/build.make:87: cmTC_880d9] Error 1
+make[1]: Leaving directory '~/orbslam/ORB_SLAM3/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_880d9/fast] Error 2
+```
+
+i also saw issues during cmake, despite it getting completed
+
+```
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+```
+
+To resolve these issues, you will have to make changes to CMakeLists.txt in ORB_SLAM3 folder
+
+In line 10 and 11 of CMakeLists.txt, replace 
+```
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall   -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall   -O3")
+```
+with 
+```
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall   -O3   -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall   -O3   -pthread")
+```
+FIND BELOW LINES (SHOULD BE AROUND LINE NUMBER 40)
+```
+find_package(Eigen3 3.1.0 REQUIRED)
+find_package(Pangolin REQUIRED)
+find_package(realsense2)
+```
+
+and replace by 
+```
+find_package(Eigen3 3.1.0 REQUIRED)
+find_package(Pangolin REQUIRED)
+find_package(realsense2)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+```
+
+AFTER YOU HAVE PASTED ABOVE, REPLACE 
+
+```
+target_link_libraries(${PROJECT_NAME}
+${OpenCV_LIBS}
+${EIGEN3_LIBS}
+${Pangolin_LIBRARIES}
+${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
+-lboost_serialization
+-lcrypto
+)
+```
+WITH 
+```
+target_link_libraries(${PROJECT_NAME}
+${OpenCV_LIBS}
+${EIGEN3_LIBS}
+${Pangolin_LIBRARIES}
+${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
+${CMAKE_THREAD_LIBS_INIT}
+-lboost_serialization
+-lcrypto
+)
+```
+
+
+Above changes will solve the thread linking issues.
+
+You may face errors such as below during the make process, these errors are happening while linking the Pangolin object files using a different version of cpp. 
+
+```
+/usr/local/include/sigslot/signal.hpp:1180:9: error: ‘cow_copy_type’ was not declared in this scope
+ 1180 |         cow_copy_type<list_type, Lockable> ref = slots_reference()
+/usr/local/include/sigslot/signal.hpp: In member function ‘sigslot::signal_base< <template-parameter-1-1>, <template-parameter-1-2> >& sigslot::signal_base< <template-parameter-1-1>, <template-parameter-1-2> >::operator=(sigslot::signal_base< <template-parameter-1-1>, <template-parameter-1-2> >&&)’:
+/usr/local/include/sigslot/signal.hpp:1155:14: error: ‘m_slots’ was not declared in this scope
+```
+
+BEFORE THE LAST MAKE, AFTER cmake .. -DCMAKE_BUILD_TYPE=Release in ORB_SLAM3/build.sh, you have to add below command to update standard from c++11 to c++14
+
+```
+sed -i 's/++11/++14/g' CMakeLists.txt
+```
+for more info on it, you can check the link https://github.com/UZ-SLAMLab/ORB_SLAM3/issues/458
+
+ 
+
