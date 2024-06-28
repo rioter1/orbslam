@@ -189,7 +189,7 @@ for opencv, it was looking for path to files OpenCVModules.cmake & OpenCVConfig.
 
 paste in ORB_SLAM3/CMakeLists.txt, just before find_package(OpenCV 4.4) (around line 33)
 ```
-set(OpenCV_DIR "~/orbslam/opencv-4.4.0/build")
+set(OpenCV_DIR "path/to/opencv/opencv-4.4.0/build")
 ```
 
 And i faced errors with and pthread header and functions having troubline linking with the pthread library
@@ -201,7 +201,7 @@ src.c:(.text.startup+0x29): undefined reference to pthread_create'
 /usr/bin/ld: src.c:(.text.startup+0x3d): undefined reference to pthread_join'
 collect2: error: ld returned 1 exit status
 make[1]: *** [CMakeFiles/cmTC_880d9.dir/build.make:87: cmTC_880d9] Error 1
-make[1]: Leaving directory '~/orbslam/ORB_SLAM3/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory '/path/to/orb_slam3/ORB_SLAM3/build/CMakeFiles/CMakeTmp'
 make: *** [Makefile:121: cmTC_880d9/fast] Error 2
 ```
 
