@@ -294,4 +294,31 @@ sed -i 's/++11/++14/g' CMakeLists.txt
 for more info on it, you can check the link https://github.com/UZ-SLAMLab/ORB_SLAM3/issues/458
 
  
+# Building with ROS
 
+```
+sudo apt update
+sudo apt install ros-noetic-desktop-full
+
+
+sudo rosdep init
+rosdep update
+
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+```
+check
+```
+python3 -c "import rosdep2"
+```
+you may need to install python3-rosdep if check fails
+```
+sudo apt install python3-rosdep
+sudo rosdep init
+rosdep update
+```
+check
+```
+python3 -c "import rosdep2"
+```
