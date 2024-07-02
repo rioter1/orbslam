@@ -294,31 +294,98 @@ sed -i 's/++11/++14/g' CMakeLists.txt
 for more info on it, you can check the link https://github.com/UZ-SLAMLab/ORB_SLAM3/issues/458
 
  
-# Building with ROS
+# Building ORB_SLAM3 with ROS
+
+Install ROS as per earlier Instructions laid out or use the link http://wiki.ros.org/noetic/Installation/Ubuntu
+
+Once Installation is complete
+
+edit bashrc
 
 ```
-sudo apt update
-sudo apt install ros-noetic-desktop-full
-
-
-sudo rosdep init
-rosdep update
-
-echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+gedit ~/.bashrc
+export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:PATH/ORB_SLAM3/Examples_old/ROS
 source ~/.bashrc
+```
+in README.md inside Examples_old/ROS/ORB_SLAM3 
+
+Add at the top
+```
+project(ORB_SLAM3)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+```
+
+replace lines
+```
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall  -O3 -march=native")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall  -O3 -march=native")
+```
+with 
+```
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall  -O3 -march=native   -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall  -O3 -march=native   -pthread")
+```
+
+
+Remove the line
+```
+find_package(OpenCV 3.0 QUIET)
+if(NOT OpenCV_FOUND)
+   find_package(OpenCV 2.4.3 QUIET)
+   if(NOT OpenCV_FOUND)
+      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
+   endif()
+endif()
+```
+
+and replace by 
+```
+
+set(OpenCV_DIR "/home/antpc/orbslam/opencv-4.4.0/build")
+find_package(OpenCV 4.4)
+   if(NOT OpenCV_FOUND)
+      message(FATAL_ERROR "OpenCV > 4.4 not found.")
+   endif()
+
+MESSAGE("OPENCV VERSION:")
+MESSAGE(${OpenCV_VERSION})
+```
+
+Add line
+```
+find_package(Threads REQUIRED)
+```
+and in include_directories, paste
+```
+${PROJECT_SOURCE_DIR}/../../../Thirdparty/Sophus
+```
+
+in set(LIBS) paste
+```
+${CMAKE_THREAD_LIBS_INIT}
+```
+
+I also commented out AR camera as i will not be using it and it throws an error during the build process.
+error: conversion from ‘sophus::se3f’ {aka ‘sophus::se3<float>’} to non-scalar type ‘cv::mat’ requested 151 | cv::mat tcw = mpslam->trackmonocular(cv_ptr->image,cv_ptr->header.stamp.tosec());
 
 ```
-check
+# Node for monocular camera (Augmented Reality Demo)
+#rosbuild_add_executable(MonoAR
+#src/AR/ros_mono_ar.cc
+#src/AR/ViewerAR.h
+#src/AR/ViewerAR.cc
+#)
+
+#target_link_libraries(MonoAR
+#${LIBS}
+#)
 ```
-python3 -c "import rosdep2"
+
+execute 
 ```
-you may need to install python3-rosdep if check fails
+sed -i 's/++11/++14/g' Examples_old/ROS/ORB_SLAM3/CMakeLists.txt 
+chmod +x build_ros.sh
+./build_ros.sh
 ```
-sudo apt install python3-rosdep
-sudo rosdep init
-rosdep update
-```
-check
-```
-python3 -c "import rosdep2"
-```
+
+the ORB_SLAM3 package with ROS will be build
