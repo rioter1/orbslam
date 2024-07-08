@@ -389,3 +389,12 @@ chmod +x build_ros.sh
 ```
 
 the ORB_SLAM3 package with ROS will be build
+
+
+
+
+
+# Link to Video for monocular inertial slam
+```
+https://drive.google.com/file/d/1Uj3CtvWZ1X-wGk4oDtbAXS7MmkkX_9t3/view?usp=sharing
+```
