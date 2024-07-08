@@ -406,5 +406,5 @@ https://drive.google.com/file/d/1Uj3CtvWZ1X-wGk4oDtbAXS7MmkkX_9t3/view?usp=shari
 ```
 https://drive.google.com/file/d/1Uj3CtvWZ1X-wGk4oDtbAXS7MmkkX_9t3/view?usp=sharing
 
-![alt text](https://github.com/rioter1/orbslam/blob/main/Screenshot%20from%202024-07-08%2020-33-00.png)
+![alt text](https://github.com/rioter1/orbslam/blob/main/Screenshot%20from%202024-07-08%2020-33-00.png?raw=true)
 
