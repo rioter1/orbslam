@@ -404,7 +404,7 @@ https://drive.google.com/file/d/1Uj3CtvWZ1X-wGk4oDtbAXS7MmkkX_9t3/view?usp=shari
 ```
 ./Stereo-Inertial/stereo_inertial_euroc_old ../Vocabulary/ORBvoc.txt ./Stereo-Inertial/EuRoC.yaml "$pathDatasetEuroc"/MH01 ./Stereo-Inertial/EuRoC_TimeStamps/MH01.txt "$pathDatasetEuroc"/MH02 ./Stereo-Inertial/EuRoC_TimeStamps/MH02.txt "$pathDatasetEuroc"/MH03 ./Stereo-Inertial/EuRoC_TimeStamps/MH03.txt "$pathDatasetEuroc"/MH04 ./Stereo-Inertial/EuRoC_TimeStamps/MH04.txt "$pathDatasetEuroc"/MH05 ./Stereo-Inertial/EuRoC_TimeStamps/MH05.txt dataset-MH01_to_MH05_stereoi
 ```
-https://drive.google.com/file/d/1Uj3CtvWZ1X-wGk4oDtbAXS7MmkkX_9t3/view?usp=sharing
+https://drive.google.com/file/d/1P6CJqNI9yyNeBJHvEav8vi5B9T2l3LoT/view?usp=sharing
 
 ![Screenshot from 2024-07-08 20-33-00](https://github.com/rioter1/orbslam/assets/118795230/b2408383-8bce-4c7e-b308-df71cd5bff0d)
 
