@@ -394,7 +394,7 @@ the ORB_SLAM3 package with ROS will be build
 
 
 
-# Link to Video for monocular inertial slam
+# Link to Video for monocular and stereo inertial slam
 ```
 ./Monocular-Inertial/mono_inertial_euroc ../Vocabulary/ORBvoc.txt ./Monocular-Inertial/EuRoC.yaml "$pathDatasetEuroc"/MH01 ./Monocular-Inertial/EuRoC_TimeStamps/MH01.txt dataset-MH01_monoi
 ```
@@ -408,3 +408,21 @@ https://drive.google.com/file/d/1P6CJqNI9yyNeBJHvEav8vi5B9T2l3LoT/view?usp=shari
 
 ![Screenshot from 2024-07-08 20-33-00](https://github.com/rioter1/orbslam/assets/118795230/b2408383-8bce-4c7e-b308-df71cd5bff0d)
 
+
+# Running with ROS
+
+open 3 terminals
+in 1st enter 
+```
+roscore
+```
+in 2nd enter 
+```
+rosrun ORB_SLAM3 Stereo_Inertial Vocabulary/ORBvoc.txt Examples_old/Stereo-Inertial/EuRoC.yaml true
+
+```
+in 3rd enter
+```
+rosbag play ./dataset/MH_01_easy.bag /cam0/image_raw:=/camera/left/image_raw /cam1/image_raw:=/camera/right/image_raw /imu0:=/imu
+```
+https://drive.google.com/file/d/1TTqJzd0NsFN9_66k0zmBdnm8XagCaUjW/view?usp=sharing
